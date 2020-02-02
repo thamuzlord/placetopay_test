@@ -15,11 +15,10 @@ class Order extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('votes');
-            $table->integer('order_number',45);
+            $table->string('order_number',45);
             $table->integer('order_code_product');
-            $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('customer');            
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');            
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('product');
             $table->timestamps();
