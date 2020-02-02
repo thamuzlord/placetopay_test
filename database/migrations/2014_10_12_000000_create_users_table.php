@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('customer_name',45);
             $table->string('customer_email',45)->unique();
             $table->string('customer_mobile',45)->unique();
+            $table->boolean('rol')->default(true); //Los usuarios true son "estandar" y false "Administrador"
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
