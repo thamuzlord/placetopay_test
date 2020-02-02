@@ -13,7 +13,17 @@ class Order extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('order', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('votes');
+            $table->integer('order_number',45);
+            $table->integer('order_code_product');
+            $table->unsignedBigInteger('customer_id');
+            $table->foreign('customer_id')->references('id')->on('customer');            
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('product');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +33,6 @@ class Order extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('order');
     }
 }

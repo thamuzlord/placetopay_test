@@ -13,7 +13,12 @@ class Product extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('product', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('product_code',45);
+            $table->string('product_description',45);
+            $table->integer('product_cost');
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class Product extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('product');
     }
 }

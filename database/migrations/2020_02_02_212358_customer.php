@@ -13,7 +13,13 @@ class Customer extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('customer', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('customer_name',45);
+            $table->string('customer_email',45)->unique();
+            $table->string('customer_mobile',45)->unique();            
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ class Customer extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('customer');
     }
 }
