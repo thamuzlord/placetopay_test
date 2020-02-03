@@ -17,4 +17,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/order', 'OrderController@index');
+    Route::group(['middleware' => ['AuthRol']], function(){
+        Route::get('/ordershop', 'OrderShopController@index');
+    });
+});
+
