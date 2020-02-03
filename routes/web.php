@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,7 +9,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,6 +18,8 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/order', 'OrderController@index');
+    Route::post('/searchProducts','OrderController@searchProducts');
+    Route::post('/buyProduct','OrderController@buyProduct');
     Route::group(['middleware' => ['AuthRol']], function(){
         Route::get('/ordershop', 'OrderShopController@index');
     });
