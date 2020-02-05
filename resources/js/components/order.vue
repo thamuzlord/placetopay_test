@@ -14,7 +14,7 @@
                         <td>{{P.product_code}}</td>
                         <td>{{P.product_description}}</td>
                         <td>{{P.product_cost}}</td>
-                        <td><button class="btn btn-primary btn-sm" @click="buyProduct(P.id,P.product_code,P.product_cost)">Buy</button></td>
+                        <td><button class="btn btn-primary btn-sm" @click="buyProduct(P.id,P.product_code,P.product_description,P.product_cost)">Buy</button></td>
                     </tr>
                 </tbody>
             </table>           
@@ -39,10 +39,11 @@
                     }
                 });
             },
-            buyProduct(IdProduct,ProductCode, ProductCost){
+            buyProduct(IdProduct,ProductCode, ProductDescription, ProductCost){
                 let dataE =  new FormData();
                 dataE.append("IdProduct",IdProduct);
                 dataE.append("ProductCode",ProductCode);
+                dataE.append("ProductDescription",ProductDescription);
                 dataE.append("ProductCost",ProductCost);
                 window.axios.post('buyProduct',dataE).then(({ data }) => {
                 if(!data.error){
@@ -52,9 +53,6 @@
                     }
                 });
             },
-
-
-
             internalError(){
                 alert("Internal Error");
             }
