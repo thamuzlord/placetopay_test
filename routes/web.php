@@ -17,8 +17,9 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/order', 'OrderController@index');
+    Route::get('/order', 'OrderController@index')->name('order');
     Route::post('/searchProducts','OrderController@searchProducts');
+    Route::post('/myOrders','OrderController@myOrders');
     Route::post('/buyProduct','OrderController@buyProduct');
     Route::group(['middleware' => ['AuthRol']], function(){
         Route::get('/ordershop', 'OrderShopController@index');

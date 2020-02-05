@@ -13,10 +13,10 @@ class Order extends Migration
      */
     public function up()
     {
-        Schema::create('order', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_number',45);
-            $table->integer('order_code_product');
+            $table->string('order_code_product',45);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');            
             $table->unsignedBigInteger('product_id');
@@ -32,6 +32,6 @@ class Order extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('orders');
     }
 }

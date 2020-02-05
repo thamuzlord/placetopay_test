@@ -119,10 +119,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      Products: [{}]
+      Products: [{}],
+      myOrder: [{}]
     };
   },
   methods: {
@@ -139,20 +165,35 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    buyProduct: function buyProduct(IdProduct, ProductCode, ProductCost) {
+    buyProduct: function buyProduct(IdProduct, ProductCode, ProductDescription, ProductCost) {
       var _this2 = this;
 
       var dataE = new FormData();
       dataE.append("IdProduct", IdProduct);
       dataE.append("ProductCode", ProductCode);
+      dataE.append("ProductDescription", ProductDescription);
       dataE.append("ProductCost", ProductCost);
       window.axios.post('buyProduct', dataE).then(function (_ref2) {
         var data = _ref2.data;
 
         if (!data.error) {
-          _this2.Products = data.Mensaje;
+          window.location.href = data.Mensaje.processUrl;
+          console.log(data.Mensaje);
         } else {
           _this2.ErrorInterno();
+        }
+      });
+    },
+    myOrders: function myOrders() {
+      var _this3 = this;
+
+      window.axios.post('myOrders').then(function (_ref3) {
+        var data = _ref3.data;
+
+        if (!data.error) {
+          _this3.myOrder = data.Mensaje;
+        } else {
+          _this3.ErrorInterno();
         }
       });
     },
@@ -162,6 +203,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.searchProducts();
+    this.myOrders();
   }
 });
 
@@ -184,9 +226,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "container-fluid" }, [
-      _c("h2", [_vm._v("Products")]),
+      _c("h2", [_vm._v("Audiovisual Products")]),
       _vm._v(" "),
-      _c("table", { staticClass: "table" }, [
+      _c("table", { staticClass: "table table-hover table-dark" }, [
         _vm._m(0),
         _vm._v(" "),
         _c(
@@ -209,8 +251,48 @@ var render = function() {
                         return _vm.buyProduct(
                           P.id,
                           P.product_code,
+                          P.product_description,
                           P.product_cost
                         )
+                      }
+                    }
+                  },
+                  [_vm._v("Order")]
+                )
+              ])
+            ])
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "container-fluid" }, [
+      _c("h2", [_vm._v("My Orders")]),
+      _vm._v(" "),
+      _c("table", { staticClass: "table table-hover table-dark" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.myOrder, function(P) {
+            return _c("tr", [
+              _c("td", [_vm._v(_vm._s(P.order_number))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(P.product_description))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(P.product_cost))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(P.payment_status))]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-sm",
+                    on: {
+                      click: function($event) {
+                        return _vm.buyProduct()
                       }
                     }
                   },
@@ -230,14 +312,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Code")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Description")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Cost")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Action")])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Code")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Cost")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Order Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Cost")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Payment Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
     ])
   }
 ]
