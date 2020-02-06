@@ -20,7 +20,7 @@ class OrderController extends Controller
 
     public function myOrders(){
         $User = Auth::user();
-        $myOrders = DB::select("SELECT o.order_number,pg.payment_request_id,pg.payment_processurl,pg.payment_status,p.product_description,p.product_cost FROM orders o INNER JOIN payment_gateway pg ON pg.order_id = o.id INNER JOIN product p ON p.id = o.product_id WHERE o.user_id = $User->id");
+        $myOrders = DB::select("SELECT o.order_number,pg.payment_request_id,pg.payment_processurl,pg.payment_status,p.product_description,p.product_cost FROM orders o INNER JOIN payment_gateway pg ON pg.order_id = o.id INNER JOIN product p ON p.id = o.product_id WHERE o.user_id = ? ORDER BY pg.created_at DESC",[$User->id]);
         $response = array('error' => false, 'Mensaje'=>$myOrders);
         return response()->json($response,200);
     }
@@ -40,9 +40,6 @@ class OrderController extends Controller
         } else {
             $nonce = mt_rand();
         }      
-        
-        //Obtener la información del cliente
-        $user_info = DB::select("SELECT customer_name,customer_email,customer_mobile FROM users WHERE id = $User->id;");
 
         //Insertar la información de la orden
         $insert_order = DB::insert("INSERT INTO `orders` (order_number,order_code_product,user_id,product_id,created_at) VALUES (?,?,?,?,NOW())",[$order_number,$request->ProductCode,$User->id,$request->IdProduct]);
@@ -62,9 +59,9 @@ class OrderController extends Controller
                 'seed' => $seed,
             ],
             "buyer" => [
-                "name" => "Deion",
-                "email" => "dnetix@yopmail.com",
-                "mobile" => 3006108300,
+                "name" => $User->customer_name,
+                "email" => $User->customer_email,
+                "mobile" => $User->customer_mobile,
             ],
             'payment' => [
                 'reference' => $order_number,
@@ -75,7 +72,7 @@ class OrderController extends Controller
                 ],
             ],
             'expiration' => date('c', strtotime('+1 days')),
-            'returnUrl' => 'http://localhost/placetopay_test/public/endProcessPay.php?order="'.$order_number.'"',
+            'returnUrl' => 'http://localhost/placetopay/placetopay_test/public/endProcessPay?order='.$order_number,
             'ipAddress' => '127.0.0.1',
             'userAgent' => 'PlacetoPay Sandbox'            
         );     
@@ -96,5 +93,49 @@ class OrderController extends Controller
 
         $resp = array('error' => false, 'Mensaje'=>$response);
         return response()->json($resp,200);
+    }
+
+    public function endProcessPay(Request $request){
+        $order = $request->order;
+        $request_id = collect(DB::select("SELECT pg.payment_request_id FROM orders o INNER JOIN payment_gateway pg ON o.order_number = pg.payment_oder_number WHERE o.order_number = ? ",[$order]))->first();
+        $seed  = date ('c');
+        $seed = strtotime('+5 minute',strtotime($seed));
+        $seed = date('c',$seed);
+
+        if (function_exists('random_bytes')) {
+            $nonce = bin2hex(random_bytes(16));
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            $nonce = bin2hex(openssl_random_pseudo_bytes(16));
+        } else {
+            $nonce = mt_rand();
+        }      
+        $nonceBase64 = base64_encode($nonce);
+        $secretKey = env('TRANKEY');
+        $tranKey = base64_encode(sha1($nonce . $seed . $secretKey, true));
+
+        $data = array(
+            'auth' => [
+                'login' => env('LOGIN_PTP'),
+                'tranKey' => $tranKey,
+                'nonce' => $nonceBase64,
+                'seed' => $seed,
+            ],
+        );     
+        $data = json_encode($data);
+        $headers = array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data),
+        );
+        $url = env('URL_SERVICIO');
+        $url = $url."/".$request_id->payment_request_id;
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($curl);
+        $response = json_decode($response);
+        $update_order = DB::update("UPDATE `payment_gateway` SET payment_status = ? WHERE payment_oder_number = ?",[$response->status->status,$order]);
+        return redirect()->route('order');
     }
 }

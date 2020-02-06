@@ -39,7 +39,9 @@
                         <td>{{P.product_description}}</td>
                         <td>{{P.product_cost}}</td>
                         <td>{{P.payment_status}}</td>
-                        <td><button class="btn btn-primary btn-sm" @click="buyProduct()">Buy</button></td>
+                        <td v-if="P.payment_status=='CREATED'"><button class="btn btn-primary btn-sm" @click="openUrl(P.payment_processurl)">Buy</button></td>
+                        <td v-if="P.payment_status=='REJECTED'">X</td>
+                        <td v-if="P.payment_status=='APPROVED'">S</td>
                     </tr>
                 </tbody>
             </table>           
@@ -73,12 +75,12 @@
                 dataE.append("ProductCost",ProductCost);
                 window.axios.post('buyProduct',dataE).then(({ data }) => {
                 if(!data.error){
-                        /*window.location.href = data.Mensaje.processUrl;*/
-                        window.open(
-                        data.Mensaje.processUrl,
-                        '_blank' // <- This is what makes it open in a new window.
-                        );
-                        console.log(data.Mensaje);
+                        window.location.href = data.Mensaje.processUrl;
+                        // window.open(
+                        // data.Mensaje.processUrl,
+                        // '_blank' // <- This is what makes it open in a new window.
+                        // );
+                        // console.log(data.Mensaje);
                     }else{
                         this.ErrorInterno();
                     }
@@ -92,6 +94,9 @@
                         this.ErrorInterno();
                     }
                 });
+            },
+            openUrl(url){
+                window.location.href = url;
             },
             internalError(){
                 alert("Internal Error");

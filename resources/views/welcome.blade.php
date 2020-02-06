@@ -69,6 +69,9 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/order') }}">Shop</a>
+                        @if (!Auth::user()->rol)
+                            <a href="{{ url('/ordershop') }}">Orders</a>
+                        @endif    
                     @else
                         <a href="{{ route('login') }}">Login</a>
 

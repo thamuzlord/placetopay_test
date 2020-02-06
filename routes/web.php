@@ -21,8 +21,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/searchProducts','OrderController@searchProducts');
     Route::post('/myOrders','OrderController@myOrders');
     Route::post('/buyProduct','OrderController@buyProduct');
+    Route::get('/endProcessPay','OrderController@endProcessPay');
     Route::group(['middleware' => ['AuthRol']], function(){
-        Route::get('/ordershop', 'OrderShopController@index');
+        Route::get('/ordershop', 'OrderShopController@index')->name('ordershop');
+        Route::post('/myOrderShop', 'OrderShopController@orders');
     });
 });
 

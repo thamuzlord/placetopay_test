@@ -5,4 +5,5 @@
     <div id="ordershop">
     </div>
 </div>
+<script src="{{ asset('js/ordershop.js') }}" defer></script>
 @endsection
