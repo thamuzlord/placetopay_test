@@ -13,7 +13,7 @@ class OrderShopController extends Controller
     }
 
     public function orders(){
-        $myOrders = DB::select("SELECT o.order_number,pg.payment_request_id,pg.payment_processurl,pg.payment_status,p.product_description,p.product_cost FROM orders o INNER JOIN payment_gateway pg ON pg.order_id = o.id INNER JOIN product p ON p.id = o.product_id ORDER BY pg.created_at DESC");
+        $myOrders = DB::select("SELECT u.customer_name,o.order_number,pg.payment_request_id,pg.payment_processurl,pg.payment_status,p.product_description,p.product_cost FROM orders o INNER JOIN payment_gateway pg ON pg.order_id = o.id INNER JOIN product p ON p.id = o.product_id INNER JOIN users u ON u.id = o.user_id ORDER BY pg.created_at DESC");
         $response = array('error' => false, 'Mensaje'=>$myOrders);
         return response()->json($response,200);
     }

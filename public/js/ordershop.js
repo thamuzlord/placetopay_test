@@ -125,6 +125,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -173,7 +175,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "container-fluid" }, [
-      _c("h2", [_vm._v("My Orders")]),
+      _c("h2", [_vm._v("Orders Store")]),
       _vm._v(" "),
       _c("table", { staticClass: "table table-hover table-dark" }, [
         _vm._m(0),
@@ -183,6 +185,8 @@ var render = function() {
           _vm._l(_vm.myOrder, function(P) {
             return _c("tr", [
               _c("td", [_vm._v(_vm._s(P.order_number))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(P.customer_name))]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(P.product_description))]),
               _vm._v(" "),
@@ -202,17 +206,17 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Buy")]
+                      [_vm._v("CREATED")]
                     )
                   ])
                 : _vm._e(),
               _vm._v(" "),
               P.payment_status == "REJECTED"
-                ? _c("td", [_vm._v("X")])
+                ? _c("td", [_vm._v("REJECTED")])
                 : _vm._e(),
               _vm._v(" "),
               P.payment_status == "APPROVED"
-                ? _c("td", [_vm._v("S")])
+                ? _c("td", [_vm._v("SHIP")])
                 : _vm._e()
             ])
           }),
@@ -230,6 +234,8 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Order Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Customer")]),
         _vm._v(" "),
         _c("th", [_vm._v("Description")]),
         _vm._v(" "),
