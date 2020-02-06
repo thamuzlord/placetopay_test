@@ -18,4 +18,5 @@
     (4,'004','THE GOOD DOCTOR',152999),
     (5,'005','THE SIMPSONS',199999);
   </code>
+  <li>Registrar dos usuarios a través de la interfaz de usuario del proyecto y por base de datos en la tabla <code>users</code> cambiar el campo rol de uno de ellos a <code>0</code> que es el valor del rol administrador</li>
 </ul>
