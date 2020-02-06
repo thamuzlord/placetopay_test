@@ -74,8 +74,8 @@ class OrderController extends Controller
                 'total' =>   $request->ProductCost,
                 ],
             ],
-            'expiration' => date('c', strtotime('+2 days')),
-            'returnUrl' => 'http://localhost/placetopay_test/public/order',
+            'expiration' => date('c', strtotime('+1 days')),
+            'returnUrl' => 'http://localhost/placetopay_test/public/endProcessPay.php?order="'.$order_number.'"',
             'ipAddress' => '127.0.0.1',
             'userAgent' => 'PlacetoPay Sandbox'            
         );     

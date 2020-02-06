@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Movies & Series - Shop</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -68,7 +68,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/order') }}">Shop</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -81,17 +81,15 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Trailers
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://www.netflix.com/co/title/70178217" target="new">HOUSE OF CARDS</a>
+                    <a href="https://www.nbc.com/hannibal" target="new">HANNIBAL</a>
+                    <a href="https://www.imdb.com/title/tt0898266/" target="new">THE BIG BANG THEORY</a>
+                    <a href="https://la.sonychannel.com/series/good-doctor" target="new">THE GOOD DOCTOR</a>
+                    <a href="https://www.imdb.com/title/tt0096697/" target="new">THE SIMPSONS</a>
                 </div>
             </div>
         </div>

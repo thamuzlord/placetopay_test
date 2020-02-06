@@ -177,7 +177,9 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref2.data;
 
         if (!data.error) {
-          window.location.href = data.Mensaje.processUrl;
+          /*window.location.href = data.Mensaje.processUrl;*/
+          window.open(data.Mensaje.processUrl, '_blank' // <- This is what makes it open in a new window.
+          );
           console.log(data.Mensaje);
         } else {
           _this2.ErrorInterno();

@@ -73,7 +73,11 @@
                 dataE.append("ProductCost",ProductCost);
                 window.axios.post('buyProduct',dataE).then(({ data }) => {
                 if(!data.error){
-                        window.location.href = data.Mensaje.processUrl;
+                        /*window.location.href = data.Mensaje.processUrl;*/
+                        window.open(
+                        data.Mensaje.processUrl,
+                        '_blank' // <- This is what makes it open in a new window.
+                        );
                         console.log(data.Mensaje);
                     }else{
                         this.ErrorInterno();
