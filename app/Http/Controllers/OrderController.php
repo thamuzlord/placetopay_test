@@ -72,7 +72,7 @@ class OrderController extends Controller
                 ],
             ],
             'expiration' => date('c', strtotime('+1 days')),
-            'returnUrl' => 'http://localhost/placetopay/placetopay_test/public/endProcessPay?order='.$order_number,
+            'returnUrl' => 'http://localhost/placetopay_test/public/endProcessPay?order='.$order_number,
             'ipAddress' => '127.0.0.1',
             'userAgent' => 'PlacetoPay Sandbox'            
         );     
